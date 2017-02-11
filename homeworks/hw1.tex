@@ -216,6 +216,9 @@ $\vx$ with an extra $1$:
 \end{align*}
 where $\tilde{\vx} = \left[ \vx; 1\right]$. Why is this necessary? Provide an
 example in which this extra $1$ is necessary.
+\\
+\\
+SOLUTION: The model equation created after the learning process is supposed to provide a line that classifies inputs as accurately as possible. The number of variables is equivalent to $d$, or the dimension of $\vx$, and each coefficient corresponds to the values in $\vw$. With such an equation, there is nowhere to place a constant to account for a vertical shift in the model: it only permits models which pass through the origin. In some cases, the optimal solution after learning may be a model that does not pass through the origin, but somewhere else along the y axis. By appending a 1 to the end of $\vx$, we can obtain an additional value from $\vw$ during learning, which ends up being the bias. This "bias" helps shift the model by a constant and can thus provide a more optimal solution. 
 
 \vspace{5mm}
 
@@ -236,6 +239,21 @@ solution? Propose a solution to this.
     D(y^*, \vw, \vx) = -(y^* \log M(\vx) + (1-y^*) \log (1- M(\vx))).
 \end{align*}
 Derive its gradient with respect to the weight vector $\vw$ step-by-step.
+\\
+\\
+SOLUTION: 
+Let $a = -y^* \log M(\vx)$ and $b =  \log (1- M(\vx))$ \\
+We also know that $M(\vx) = \sigmoid(\vw^\top \tilde{\vx}) $ \\
+Based off this, we can say $a = -y^* \log ( \frac{1}{1+e^{-\vw^{\top \tilde{\vx}}}})$ and $b =  \log (1- \frac{1}{1+e^{-\vw^\top \tilde{\vx}}})$ \\
+$b = \log (1- \frac{1}{1+e^{-\vw^\top \tilde{\vx}}}) = \log ( \frac{1+e^{-\vw^\top \tilde{\vx} } - 1}{1+e^{-\vw^\top \tilde{\vx}}}) = \log ( \frac{e^{-\vw^\top \tilde{\vx} }}{1+e^{-\vw^\top \tilde{\vx}}}) =  \log ( e^{-\vw^\top \tilde{\vx} } ) - \log (1+e^{-\vw^\top \tilde{\vx}}) $ \\
+$ \frac{db}{d \vw^\top} = \frac{-\tilde{\vx} e^{-\vw^\top \tilde{\vx}}}{e^{-\vw^\top \tilde{\vx}}} + \frac{\tilde{\vx} e^{-\vw^\top \tilde{\vx}}}{1 + e^{-\vw^\top \tilde{\vx}}}  = \frac{-\tilde{\vx} (1 + e^{-\vw^\top \tilde{\vx}}) +\tilde{\vx} e^{-\vw^\top \tilde{\vx}}}{1 + e^{-\vw^\top \tilde{\vx}}}  = \frac{\tilde{\vx}}{1 + e^{-\vw^\top \tilde{\vx}}}$ \\
+$ \frac{da}{d \vw^\top} = \frac {-y^* \tilde{\vx}e^{-\vw^\top \tilde{\vx}}}{1 + e^{-\vw^\top \tilde{\vx}}}$ \\
+Bringing this together: \\
+$ \nabla_{\vw} D(M^*(\vx), M, \vx) =  \frac {-y^* \tilde{\vx}e^{-\vw^\top \tilde{\vx}}}{1 + e^{-\vw^\top \tilde{\vx}}} - \frac{y^* \tilde{\vx}}{1 + e^{-\vw^\top \tilde{\vx}}} + \frac{\tilde{\vx}}{1 + e^{-\vw^\top \tilde{\vx}}} $ \\
+$ = -y^* \tilde{\vx}e^{-\vw^\top \tilde{\vx}} \sigmoid(\vw^\top \tilde{\vx}) -y^* \tilde{\vx}\sigmoid(\vw^\top \tilde{\vx}) + \tilde{\vx}\sigmoid(\vw^\top \tilde{\vx}) = \tilde{\vx}\sigmoid(\vw^\top \tilde{\vx}) (-y^* (1 + e^{-\vw^\top \tilde{\vx}}) + 1)$ \\
+$ = \tilde{\vx}\sigmoid(\vw^\top \tilde{\vx}) (\frac{-y^* }{\sigmoid(\vw^\top \tilde{\vx})} + 1) = \tilde{\vx} (-y^* + \sigmoid(\vw^\top \tilde{\vx}))$ \\
+$ = -(M^*(\vx) - M(\vx)) \tilde{\vx}$
+
 
 \vspace{5mm}
 
