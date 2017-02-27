@@ -218,7 +218,9 @@ differentiable everywhere:
 Does it mean that we cannot use a gradient-based optimization algorithm for
 finding a solution that minimizes the hinge loss? If not, what can we do about
 it?
-
+\\
+\\
+SOLUTION: For points $ > 1$, the derivative is 0. For points $< 1$, the hinge function is equal to $1 - y\vw^\top \tilde{\vx}$. This case has a trivial derivative of $-y \tilde{\vx}$. The only part which we cannot find the derivative is at the point where $s(y, \vx; M) = 1$. Instead, we can simply arbitrarily define the derivative to be 0 at that point because as far as we are concerned, a value should be considered correctly classified if it is equal to exactly 1. Anything greater is a correct classification and values slightly below are barely classified. 
 \vspace{5mm}
 
 \paragraph{3.} When the distances to the nearest positive and negative examples
