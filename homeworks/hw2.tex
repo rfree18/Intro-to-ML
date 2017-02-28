@@ -207,8 +207,18 @@ $\left\{ -1,1 \right\}$, we introduced the log loss
 as an alternative to the logistic regression distance function above. Show that
 these two are equivalent up to a constant multiplication for logistic
 regression.
-
-\vspace{5mm}
+\\
+\\
+SOLUTION: Let us say that the log loss for $\left\{0, 1 \right\}$ is $f(y) = -(y^* \log M(\vx) + (1-y^*) \log (1- M(\vx)))$ and the log loss for $\left\{-1, 1 \right\}$ is $g(y) = \frac{1}{\log 2} \log(1+e^{-yw^T\vx})) $. We essentially want to prove that $f(0) = g(-1)$ and $f(1) = g(1)$. \\
+$f(0) = -\log (1- \frac{1}{1+e^{-w^T\vx}}) = -\log (\frac{e^{-w^T\vx}}{1+e^{-w^T\vx}}) = \log (\frac{1+e^{-w^T\vx}}{e^{-w^T\vx}}) = \log (1+ e^{w^T\vx})$. \\
+$g(-1) = \frac{1}{\log 2} \log (1 + e^{w^T\vx})$ \\
+$f(0) = \frac{1}{\log 2} g(-1)$ \\
+\\
+$f(1) = - \log (\frac{1}{1+e^{-w^T\vx}}) = \log (1+e^{-w^T\vx})$ \\
+$g(1) = \frac{1}{\log 2} \log (1 + e^{-w^T\vx})$\\
+$f(1) = \frac{1}{\log 2} g(1)$ \\
+\\
+Therefore, both equations are equivalent up to $\frac{1}{\log 2}$.
 
 \paragraph{2.} Unlike the log loss, the hinge loss, defined below, is not
 differentiable everywhere:
@@ -230,6 +240,11 @@ are defined as $d^+$ and $d^-$, the margin is
 \end{align*}
 Show that minimizing the norm of the weight vector of a support vector machine
 is equivalent to maximizing the margin. 
+\\
+\\
+SOLUTION: We know that the margin is the distance of the closest examples to the decision boundary. This value should be maximized in order to increase the probability of correctly classifying our test data and to minimize our empirical cost. when substituting the values into the above equation, we get: \\
+$\gamma = \frac{1}{2} ( \frac{w^T\vx^+}{||w||} + \frac{w^T\vx^-}{||w||}) = \frac{w^T\vx + b}{||w||}$ \\
+The best way to set this up is to normalize the support vectors such that they are a distance of 1 away from the decision boundary. This gives us $\gamma = \frac{2}{||w||}.$ This shows that the margin is inversely proportional to the norm of the weight vector, thus demonstrating that minimizing this value is equivalent to maximizing the margin.
 
 \vspace{5mm}
 
