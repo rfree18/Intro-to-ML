@@ -225,7 +225,28 @@ where
 \end{align*}
 Derive a learning rule step-by-step for each column vector $\vw_c$ of the weight
 matrix $\mW$.
-
+\\
+\\
+\\
+\\
+SOLUTION: First of all, we know that $p (C=n | \vw) = \frac{\exp(\vw_{n}^\top \tilde{\vx})}{\sum_{k=1}^K \exp(a_k)}$ for all $n \in \left\{1, \ldots, K \right\}$ \\
+For all $y \in \left\{1,
+\ldots, K \right\} \backslash \left\{ y^* \right\}$  \\
+$\frac{\partial D(y^*, M, \vx)}{\partial \vw_{y}} =
+    -\frac{\partial}{\partial \vw_{y}} \left(
+        \vw_{y}^\top \tilde{\vx} - \log \sum_{k=1}^K \exp(a_k)
+    \right)$ \\
+    $= -(0 - \frac{\tilde{\vx}\exp(\vw_{y}^\top \tilde{\vx})}{\sum_{k=1}^K \exp(a_k)}) = -( 0 - p(C=y | \vx)) \tilde{\vx}.$ \\
+    \\
+    For the $y^*$-th row vector \\
+$\frac{\partial D(y^*, M, \vx)}{\partial \vw_{y^*}} =
+    -\frac{\partial}{\partial \vw_{y^*}} \left(
+        \vw_{y^*}^\top \tilde{\vx} - \log \sum_{k=1}^K \exp(a_k)
+    \right)$ \\
+    $= -(1 - \frac{\tilde{\vx}\exp(\vw_{y^*}^\top \tilde{\vx})}{\sum_{k=1}^K \exp(a_k)}) = -( 1 - p(C=y^* | \vx)) \tilde{\vx}.$ \\ 
+    \\
+    In order to combine both equations, we need to replace certain notations. Each equation has a constant that is either 0 or 1, which merely corresponds to the desired output for the given input. In our combined equation, we can simply replace this constant with $\vy^*$, which is a vector representing our desired outputs for all given input. When combining $p(C=y^* | \vx)$ and $p(C=y | \vx)$ for all $y \in \left\{1,
+\ldots, K \right\}$, we get the probabilities of  
 \vspace{30mm}
 
 \paragraph{3.} \todo{PROGRAMMING ASSIGNMENT}
