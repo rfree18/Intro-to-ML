@@ -210,7 +210,9 @@ hypothesis sets:
 where $C$ is one of $\left\{ c_0, \ldots, c_M \right\}$. The dataset D is split into 80\% training set and 20\% test set. Our goal is two folds;
 (1) choose the best classifier, and (2) report its generalization performance
 (or its estimate). Describe in words how these two goals are met using the principles of $K$-fold cross validation.
-
+\\
+\\
+SOLUTION: $K$-fold cross validation first splits the training set K times, giving us several training and validation sets. Each hypothesis set is then trained K times and the corresponding validation sets are used to find the empirical cost of each machine. For each hypothesis set, the collective empirical costs are averaged and compared amongst the various hypothesis sets. By training each hypothesis set multiple times on data that is statistically similar, we ensure that any outliers in the data are accounted for, intuitively giving us the best classifier. Getting the generalization is a trivial task. At the very beginning, 20\% of the data was set aside for testing purposes and it was not used nor modified at all during this process. This gives us a reliable set of data to test our classifier with and to report the generalization error without much extra effort.
 \vspace{30mm}
 
 \paragraph{2.} The distance function of multi-class logistic regression was
@@ -229,7 +231,7 @@ matrix $\mW$.
 \\
 \\
 \\
-SOLUTION: First of all, we know that $p (C=n | \vw) = \frac{\exp(\vw_{n}^\top \tilde{\vx})}{\sum_{k=1}^K \exp(a_k)}$ for all $n \in \left\{1, \ldots, K \right\}$ \\
+SOLUTION: First of all, we know that $p (C=n | \vx) = \frac{\exp(\vw_{n}^\top \tilde{\vx})}{\sum_{k=1}^K \exp(a_k)}$ for all $n \in \left\{1, \ldots, K \right\}$ \\
 For all $y \in \left\{1,
 \ldots, K \right\} \backslash \left\{ y^* \right\}$  \\
 $\frac{\partial D(y^*, M, \vx)}{\partial \vw_{y}} =
@@ -246,7 +248,7 @@ $\frac{\partial D(y^*, M, \vx)}{\partial \vw_{y^*}} =
     $= -(1 - \frac{\tilde{\vx}\exp(\vw_{y^*}^\top \tilde{\vx})}{\sum_{k=1}^K \exp(a_k)}) = -( 1 - p(C=y^* | \vx)) \tilde{\vx}.$ \\ 
     \\
     In order to combine both equations, we need to replace certain notations. Each equation has a constant that is either 0 or 1, which merely corresponds to the desired output for the given input. In our combined equation, we can simply replace this constant with $\vy^*$, which is a vector representing our desired outputs for all given input. When combining $p(C=y^* | \vx)$ and $p(C=y | \vx)$ for all $y \in \left\{1,
-\ldots, K \right\}$, we get the probabilities of  
+\ldots, K \right\}$, we get the probabilities of every possible $y$, thus being equivalent to our vector $\vp$, which is the output of our machine. Substituting these values, we get $- \vx (y^* - \vp) \top$. Our learning rule then becomes $\vw_c \leftarrow \vw_c - \vx (y^* - \vp) \top$
 \vspace{30mm}
 
 \paragraph{3.} \todo{PROGRAMMING ASSIGNMENT}
