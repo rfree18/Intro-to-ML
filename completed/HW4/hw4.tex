@@ -228,8 +228,9 @@ We can then check our weight vector against the outputs from the rbf function. I
 A nearest-neighbour classifier can be constructed as a radial basis
 function network by selecting all the input vectors in a training set as basis
 vectors. In a multi-class classification setting (i.e., there are more than two
-categories), provide a description on how a weight matrix could be built.
-
+categories), provide a description on how a weight matrix could be built. \\
+\\
+In multi-class classification, we said that each weight vector of the weight matrix corresponded to a particular class. Each value within that weight matrix described how much that particular feature of the input vector affected the classification for that particular class. When an input is passed through an RBF, we essentially trying to cluster our input by determining the distance from each basis vector, which are presumably the centroids of each cluster. Theoretically, the output will have a single value close to 1, corresponding to the closest basis vector, and several values close to 0. Therefore, when determining the likelihood of the input vector belonging to a specific class, we only care about the corresponding value in the output vector. In other words, to determine the likelihood of an input vector belonging to class $i$, we only care about the $i^{th}$ entry in the output vector of the RBF. The weight matrix corresponding to this would thus simply be a composition of one-hot vectors for each class.
 \vspace{30mm}
 
 \paragraph{3.} 
