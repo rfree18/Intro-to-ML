@@ -97,6 +97,7 @@
 \newcommand{\vone}[0]{\vect{1}}
 
 \newcommand{\mW}[0]{\matr{W}}
+\newcommand{\mZ}[0]{\matr{Z}}
 \newcommand{\mE}[0]{\matr{E}}
 \newcommand{\mG}[0]{\matr{G}}
 \newcommand{\mX}[0]{\matr{X}}
@@ -2321,6 +2322,7 @@ re-read that section at this point.  In the context of regression, we will
 particularly focus on framing the whole problem as probabilistic modelling. 
 
 \section{Linear Regression}
+\label{sec:linear-regression}
 
 \subsection{Linear Regression}
 
@@ -2384,8 +2386,6 @@ instead of empirical cost function.
 Instead of going this whole pipeline once more in the setting of regression, we
 will consider a slightly difference framework in which these machine learning
 problems, including both classification and regression, could be embedded. 
-
-\subsection{Regularization and Prior Distributions}
 
 \section{Recap: Probability and Distribution}
 
@@ -2740,10 +2740,11 @@ If $X$ is independent from $Y$, i.e.,
     p(X|Y) = p(X),
 \end{align*}
 then
-\begin{align*}
+\begin{align}
+    \label{eq:independence}
     p(X|Y) = p(X) = \frac{p(X, Y)}{p(Y)} 
     \iff p(X, Y) = p(X)p(Y).
-\end{align*}
+\end{align}
 In fact, the converse of this statement is also true. That is, if $p(X, Y) =
 p(X)p(Y)$, then $X$ and $Y$ are mutually independent.   
 
@@ -3077,12 +3078,9 @@ it?
 
 Now we go one step further. In supervised machine learning, what is our ultimate
 goal? Was it to find the parameters that minimize the empirical cost function
-together with a regularization term? In some cases, yes.\footnote{
-    It is your {\bf homework assignment} to come up with one such case based on
-    our discussion in Sec.~\ref{sec:weight}.
-} 
-Our goal was however to build a machine that can predict the outcome of a
-future, unseen input vector as well as possible. 
+together with a regularization term? In some cases, yes.  Our goal was however
+to build a machine that can predict the outcome of a future, unseen input vector
+as well as possible. 
 
 Can we push this even further? Perhaps what we want is only to know the outcome
 of a new, unseen input vector. If we can do so, do we really care about
@@ -3245,33 +3243,533 @@ from the posterior distribution.
 \subsection{Gaussian Process Regression$^\star$}
 
 
-\chapter{Dimensionality Reduction}
+\chapter{Dimensionality Reduction and Matrix Factorization}
 \label{chap:dimred}
-
 
 
 \section{Dimensionality Reduction: Problem Setup}
 \label{sec:dimred}
 
 Let us assume that we are given a set of input vectors without their
-corresponding labels. What can we do about these input vectors $D=\left\{
+corresponding labels. What can we do about these input vectors 
+\begin{align*}
+    D=\left\{
     \vx_1, \ldots, \vx_N
-\right\}$? Perhaps, the first thing we should try is to look at all of these
-input vectors to see if we can find any interesting regularity behind them. If
-they are two-dimensional vectors, we can visualize them by plotting a
-two-dimensional scatter plot in which each vector is drawn as a single point.
+\right\}?
+\end{align*}
+Perhaps, the first thing we should try is to look at all of these input vectors
+to see if we can find any interesting regularity behind them. If they are
+two-dimensional vectors, we can visualize them by plotting a two-dimensional
+scatter plot in which each vector is drawn as a single point. If they are
+three-dimensional vectors, we can still visualize them by plotting a
+three-dimensional scatter plot or by plotting a contour plot. This is however
+not as trivial as plotting two-dimensional points. If they are four-dimensional
+vectors, already we run out of any ``general'' way to visualize them.
+
+When we are presented with high-dimensional vectors, we try to reduce their
+dimensionality in order to (1) visualize them more easily, and (2) more
+efficiently process them.\footnote{
+    Why is it more efficient to process data points if they are
+    lower-dimensional vectors? This question is left to you as a {\bf homework
+    assignment}.
+} There is a family of machine learning techniques dedicated to this problem of
+reducing the dimensionality of input vectors. Applying one of these techniques
+is called {\it dimensionality reduction}.
+
+In dimensionality reduction, given a set of input vectors 
+\begin{align*}
+    D=\left\{
+    \vx_1, \vx_2, \ldots, \vx_N
+\right\}
+\end{align*}
+our goal is to find a set of corresponding lower-dimensional vectors
+\begin{align*}
+    \tilde{D} = \left\{
+        \vz_1, \vz_2, \ldots, \vz_N
+    \right\},
+\end{align*}
+where $\vx_i \in \RR^d$, $\vz_j \in \RR^q$, and $d \gg q$. 
+
+There are two major families of techniques in dimensionality reduction. First,
+there are parametric dimensionality reduction techniques. Similarly to
+supervised learning we have learned earlier, we obtain a machine $M$ that either
+maps from an input vector to its corresponding lower-dimensional vector 
+\[
+    M: \RR^d \to \RR^q,
+\]
+or maps
+from a lower-dimensional vector to its corresponding higher-dimensional
+vector\footnote{
+    Note that finding either of these two mappings is equivalent when such a
+    mapping is invertible. We will discuss this more in detail later when we
+    introduce a deep autoencoder. 
+}
+\[
+    M: \RR^q \to \RR^d.
+\]
+Again, as we learned with supervised learning, this type of machine may be
+categorized into either linear or nonlinear. In the case of linear, parametric
+dimensionality reduction, the problem can be formulated as {\it matrix
+factorization}. On the other hand, nonlinear, parametric dimensionality
+reduction is more general, and we will discuss one particular instantiation,
+called a {\it deep autoencoder} later in this chapter.
+
+The other family of dimensionality reduction techniques consists of
+non-parametric techniques. A non-parametric dimensionality reduction technique
+does not provide a separate machine that could be used on a new example, but
+only returns a set of lower-dimensional vector $\tilde{D}$. These techniques are
+often strictly used for {\it visualization} of high-dimensional data. 
+
+In this course, we will mainly focus on the parametric family of dimensionality
+reduction techniques, starting from matrix factorization and ending with deep
+autoencoders. If time permits, we will study some non-parametric dimensionality
+reduction techniques that are widely used in the scientific community.
+
+
+\section{Matrix Factorization: Problem Setup}
+
+Let us build a large matrix that contains all the input vectors by lining them
+next to each other. That is,
+\begin{align*}
+    \mX = \left[ \vx_1; \vx_2; \cdots \vx_N \right] \in \RR^{d \times N}.
+\end{align*}
+{\it Matrix factorization} is then a problem of (approximately) representing
+this data matrix $\mX$ as a product of two matrices:
+\begin{align}
+    \label{eq:matfac}
+    \mX \approx \mW \mZ,
+\end{align}
+where $\mY$ is a matrix that contains all the lower-dimensional vectors
+\begin{align*}
+    \mZ =\left[ \vz_1; \vz_2; \cdots; \vz_N \right],
+\end{align*}
+and $\mW \in \RR^{d \times q}$ is a weight matrix. $\mZ$ is often called a code
+matrix, and $\mW$ a dictionary matrix.  By setting $q$ to be smaller than $d$,
+i.e., $q \ll d$, this matrix factorization allows us to find a set of
+lower-dimensional vectors. In other words, matrix factorization allows us to
+reduce the dimensionality of input vectors.
+
+Matrix factorization is a widely-used, and perhaps oldest, dimensionality
+reduction technique. It is a {\it linear} dimensionality reduction technique, as
+evident from Eq.~\eqref{eq:matfac}. Why is this so? Because, the equation in
+Eq.~\eqref{eq:matfac} could be understood as a set of $N$ equations of which
+one is
+\begin{align}
+    \label{eq:matfac1}
+    \vx_i = \mW \vz_i.
+\end{align}
+Matrix factorization is precisely a way to build a {\it linear} machine that
+maps from a lower-dimensional vector to its original space $\RR^d$. 
+
+Eq.~\eqref{eq:matfac1} reminds us of linear regression in
+Sec.~\ref{sec:linear-regression}. The only difference is that both $\vz$ and
+$\vx$ were known in linear regression, while only one of them, $\vx$, is known
+in matrix factorization. This lack of input vectors, following the terminology
+from linear regression, implies that this problem is under-specified, meaning
+that there may be many solutions of $\mW$ and $\mZ$ that satisfy
+Eq.~\eqref{eq:matfac}. This is quite obvious, if we consider the simplest case
+of $d=q=1$, in which case the whole problem reduces to finding $w$ and $z$ that
+satisfies
+\begin{align*}
+    x = w z,
+\end{align*}
+where $x$ is known. For any solution $(w, z)$ that satisfies this equality,
+there are infinitely many other solutions $(w', z')$ such that
+\begin{align*}
+    w' = cw\text{ and }
+    z' = \frac{z}{c},
+\end{align*}
+where $c$ is an arbitrary real number. A similar thing happens with $d, q > 1$
+with any invertible matrix $\mC \in \RR^{q \times q}$, because
+\begin{align*}
+    \mX = (\mW \mC)(\mC^{-1} \mZ) = \mW (\underbrace{\mC \mC^{-1}}_{=\mI}) \mZ = \mW \mZ.
+\end{align*}
+
+What this implies is that there are many different ways to solve this matrix
+factorization. By imposing a set of clever constraints on the weight matrix
+$\mW$ and/or $\mZ$, we get a diverse set of linear dimensionality reduction
+algorithms. In the rest of this section, we investigate three such algorithms. 
+
+
+\subsection{Principal Component Anslysis: Traditional Derivation}
+
+The first such algorithm is called principal component analysis (PCA). In PCA,
+there are two constraints. The first constraint is on $\mZ$, or a set of code
+vectors $\vz_1, \ldots, \vz_N$. It states that each component of these code
+vectors must be {\it decorrelated} from all the other components. This is
+equivalent to 
+\begin{align*}
+    \sum_{n=1}^N z_{n,j} z_{n,i} = 0,\text{ for all }i \neq j,
+\end{align*}
+assuming that $\vz_n$'s are centered. We can write it more compactly by
+\begin{align*}
+    \mZ \mZ^\top = \sum_{n=1}^N \vz_{n} \vz_n^\top = \diag(\sigma_1^2, \ldots, \sigma_q^2),
+\end{align*}
+where 
+\begin{align*}
+    \Sigma = \diag(\sigma_1^2, \ldots, \sigma_q^2) = 
+    \left[
+        \begin{array}{c c c c}
+            \sigma_1^2 & 0 & \cdots & 0 \\
+            0 & \sigma2^2 & \cdots & 0 \\
+            \vdots & 0 & \cdots & \vdots \\
+            \vdots & \vdots & \cdots & \vdots \\
+            0 & 0 & \cdots & \sigma_q^2 
+        \end{array}
+    \right].
+\end{align*}
+The second constraint is that these variances $\sigma_j^2$'s are non-decreasing.
+In other words, 
+\begin{align*}
+    \sigma_i^2 \geq \sigma_j^2,\text{ for all }i > j.
+\end{align*}
+
+With these constraints in our mind, let us consider the (scaled) covariance of
+the input vector matrix $\mX$ which is defined as
+\begin{align*}
+    \underbrace{\mX \mX^\top}_{\mathclap{\mC=\text{Covariance of }\mX}} =& 
+    (\mW \mZ) (\mW \mZ)^\top \\
+    =& \mW \underbrace{\mZ \mZ^\top}_{
+\mathclap{\Sigma=\text{Covariance of }\mZ}} \mW^\top \\
+=& \mW \Sigma \mW^\top
+\end{align*}
+Since any covariance matrix is by definition symmetric,\footnote{
+    A matrix $\mC$ is symmetric if and only if
+    \begin{align*}
+        \mC = \mC^\top.
+    \end{align*}
+}
+we immediately notice that this equation precisely describes a procedure called
+{\it eigendecomposition}:
+\begin{align}
+    \label{eq:eigendecomp}
+    \mC = \mW \Sigma \mW^\top,
+\end{align}
+assuming $q=d$. $\mW$ is then a matrix consisting of $d$ eigenvectors of
+$\mC$:\footnote{
+    We assume that $N \gg d$, and that the subspace in which all the input
+    vectors lie is at least $q$-dimensional.
+}
+\begin{align*}
+    \mW = \left[ \vv_1; \vv_2; \cdots; \vv_d \right],
+\end{align*}
+where
+\begin{align}
+    \label{eq:eigenvector}
+    \mC \vv_j = \sigma_j^2 \vv_j
+\end{align}
+which is the definition of the $j$-th eigenvector, and $\sigma_j^2$ is the
+corresponding $j$-th eigenvalue. These eigenvalues and the corresponding
+eigenvectors can be computed by first solving the characteristic polynomial of
+$\mC$ to find all eigenvalues and solving Eq.~\eqref{eq:eigenvector} for each of
+the eigenvalues.\footnote{
+    It is out of the scope of this course to teach how to find eigenvalues and
+    eigenvectors. I refer students to take, for instance, MATH-UA 140 LINEAR
+    ALGEBRA listed at the Department of Mathematics. 
+}
+We see that Eq.~\eqref{eq:eigendecomp} is nothing but a stack of
+Eq.~\eqref{eq:eigenvector} in the decreasing order of $\sigma_j^2$'s.  In other
+words, we can compute the weight matrix $\mW$ by eigendecomposition of the
+(scaled) covariance matrix $\mC$ of the input matrix $\mX$.
+
+This is a good start as this selection of the weight matrix $\mW$ ensures that
+the code vectors are decorrelated, satisfying the first constraint. But, how do
+we compute the code matrix $\mZ$? One important property of the eigenvectors is
+that they are orthogonal to each other.\footnote{
+    This is true only when the associated eigenvalues are positive. 
+} Since the inverse of any orthogonal matrix is its transpose, we can compute
+the code matrix by
+\begin{align}
+    \label{eq:pca_infer}
+    \mZ = \mW^\top \mX.
+\end{align}
+
+Along the derivation, we have made one assumption that $q=d$. This effectively
+means that we have not done any dimensionality {\it reduction}. How do we then
+use this whole procedure to reduce the dimensionality, that is $q \ll d$? We can
+do it easily by simply taking only the first $q$ rows of the weight matrix, or
+taking only the first $q$ eigenvectors. That is,
+\begin{align*}
+    \mW = \left[
+        \vv_1; \vv_2; \cdots; \vv_q
+    \right].
+\end{align*}
+Because the eigenvectors were sorted in the decreasing order of the
+eigenvalues which correspond to the variance of each component of the code
+vectors, this satisfies the second constraint. Of course, this breaks the
+equality in Eq.~\eqref{eq:eigendecomp}, but is still a good approximation, as we
+will see shortly.
+
+In summary, PCA is done in the following steps:
+\begin{enumerate}
+    \item Centering: $\vx_n \leftarrow \vx_n - \frac{1}{N}\sum_{n=1}^N \vx_n$
+    \item Covariance: $\mC = \mX \mX^\top$
+    \item Eigendecomposition: $\mC = \mW \Sigma \mW^\top$
+    \item Top-$q$ extraction: $\mW \leftarrow \mW_{1:q}$
+    \item Code vectors: $\mZ = \mW^\top \mX$
+\end{enumerate}
+Despite the simplicity in description, this whole process is computational
+expensive, especially due to the computation of the covariance matrix $\mC$.  It
+is therefore desirable to skip computing the covariance matrix, and fortunately
+there is a way to do so by resorting to singular value decomposition.
+
+Singular value decomposition (SVD) decomposes a given matrix $\mX$ into a
+product of three matrices:
+\begin{align}
+    \label{eq:svd}
+    \mX = \mW \mS \mV,
+\end{align}
+where $\mW \in \RR^{d \times d}$ and $\mV \in \RR^{d \times N}$ are orthogonal
+matrices, and $\mS \in \RR^{d \times d}$ is a diagonal matrix with
+non-decreasing diagonal entries. Let us use this decomposition to compute the
+covariance matrix $\mC$:
+\begin{align*}
+    \mC =& \mX \mX^\top \\
+    =& \mW \mS \mV (\mW \mS \mV)^\top \\
+    =& \mW \mS \underbrace{\mV \mV^\top}_{=\mI} \underbrace{\mS^\top}_{=\mS} \mW^\top \\
+    =& \mW \mS \mS \mW^\top \\
+    =& \mW \Sigma \mW^\top.
+\end{align*}
+Surprised? Yes, the matrix $\mW$ could be precisely recovered by SVD on the
+input matrix $\mX$ without computing the covariance matrix. Because of this, it
+is common to directly use SVD on the input matrix in practice.
+
+\paragraph{Proportion of Variance Explained: PV}
+
+The variance of the sum of decorrelated random variables is simply the sum of
+the variances of all those random variables, i.e.,
+\begin{align*}
+    \var(\sum_{i=1}^q Z_i) = \sum_{i=1}^q \var(Z_i).
+\end{align*}
+By considering each component of the code vectors as a random variable, this
+implies that the (empirical) variance of the sum of these code components is
+simply the sum of the first $q$ eigenvalues: $\sum_{i=1}^q \sigma_i^2$. We can
+then compute how much variance has been {\it explained} by the code vectors by
+inspecting the ratio between the variance of the code components and the
+variance of the whole input:
+\begin{align*}
+    \text{PV}(q) = \frac{
+        \sum_{i=1}^q \sigma_i^2
+    }{
+        \sum_{j=1}^d \sigma_d^2
+    }.
+\end{align*}
+
+What does this proportion of variance explained (PV) correspond to? We will see
+it in the upcoming demonstration session.
+
+\paragraph{What are principal components?}
+
+The principal components are the column vectors of the weight matrix $\mW$.
+They are orthogonal to each other, and form a $q$-dimensional subspace in the
+original $d$-dimensional real space $\RR^d$. The code vector $\vz$ of an input
+vector $\vx$ is then an orthogonal projection of $\vx$ onto this subspace. This
+projection $\vz$ obtained by Eq.~\eqref{eq:pca_infer} then corresponds to the
+{\it reconstruction} in the original space by
+\begin{align}
+    \label{eq:pca_recon}
+    \hat{\vx} = z_1 \vw_1 + z_2 \vw_2 + \cdots + z_q \vw_q = \mW \vz.
+\end{align}
+Note that
+\begin{align*}
+    z_i = \vw_i^\top \vx.
+\end{align*}
+
+With this reconstruction, we can define a {\it reconstruction error} by
+\begin{align*}
+    \| \vx - \hat{\vx} \|^2_2.
+\end{align*}
+
+Now the question is what kind of subspace the procedure above finds. From the
+first constraint, that the code vectors are decorrelated with each other, we
+know that the principal components are eigenvectors of the input covariance
+matrix $\mC$.\footnote{
+    Orthonormal vectors are orthogonal to each other and have a unit norm.
+} What does the second constraint tell us about our selection of the first $q$
+eigenvectors?
+
+First, we notice that we can represent any input vector as a weighted sum of the
+eigenvectors, similarly to Eq.~\eqref{eq:pca_recon}:
+\begin{align*}
+    \vx = z'_1 \vw_1 + z'_2 \vw_2 + \cdots + z'_d \vw_d,
+\end{align*}
+where 
+\begin{align*}
+    z'_i = \vw_i^\top \vx.
+\end{align*}
+The reconstruction error can then be written as\footnote{
+    Note that I am looking at a single input vector $\vx$, but this equation
+    trivially extends to, and is in fact necessary to have, multiple input
+    vectors $\vx_1, \ldots, \vx_N$. For brevity and simplicity, my derivation
+    here considers a single input vector, but it is left for you as a {\bf
+    homework assignment} to extend this derivation to use multiple input
+    vectors.
+}
+\begin{align*}
+    \| \vx - \hat{\vx} \|^2_2 =&
+    \left\| \sum_{i=1}^q (z'_i - z_i) \vw_i + \sum_{j=q+1}^d z'_j \vw_j \right\|^2_2 \\
+    =& 
+    \left\| \sum_{j=q+1}^d z'_j \vw_j \right\|^2_2 \\
+    =& 
+    \sum_{j=q+1}^d {z'}_j^2 \underbrace{\| \vw_j \|^2}_{=1} \\
+    =& 
+    \sum_{j=q+1}^d {z'}_j^2 \\
+    =&
+    \sum_{j=q+1}^d \vw_i^\top \underbrace{\vx \vx^\top}_{
+    \mathclap{\mC=\text{covariance}}} \vw_i \\
+    =&
+    \sum_{j=q+1}^d \vw_i^\top \mC \vw_i.
+\end{align*}
+Now this looks awfully similar to the eigendecomposition from
+Eq.~\eqref{eq:eigendecomp}, where we learned that\footnote{
+    It is your {\bf homework assignment} to show that the equations below are
+    true.
+}
+\begin{align*}
+    &\Sigma = \mW^\top \mC \mW \\
+    \iff&
+    \sigma_j^2 = \vw_j^\top \mC \vw_j,\text{ for all }j=1,\ldots,d.
+\end{align*}
+In other words, the reconstruction error equals to the sum of the eigenvalues of
+the discarded eigenvectors:
+\begin{align*}
+    \| \vx - \hat{\vx} \|^2_2 =
+    \sum_{j=q+1}^d \sigma_j^2.
+\end{align*}
+Thus, we minimize the reconstruction error by selecting the top-$q$ eigenvectors
+according to their corresponding eigenvalues as the principal components. If we
+want to add one more, we add another eigenvector whose eigenvalue is greater
+than equal to that of any other remaining eigenvector.
+
+This view of PCA as finding a subspace that minimizes the reconstruction error
+becomes handy when we extend it to nonlinear PCA later. A deep autoencoder,
+which is one realization of nonlinear PCA, directly and explicitly minimizes the
+reconstruction error.
+
+
+\subsection{PCA: Minimum Reconstruction Error with Orthogonality Constraint}
+
+We have derived PCA from the two constraints; (1) the elements of a code vector
+$\vz$ are decorrelated, and (2) the variances of the elements of a code vector
+are sorted in a decreasing order. We have seen that the first constraint led to
+the orthogonality of the weight matrix, or the dictionary matrix, $\mW$. The
+second constraint, on the other hand, led to the minimum reconstruction error
+criterion. This latter revelation tells us that the second constraint of PCA is
+perhaps not a criterion on its own, but rather a consequence of optimization
+which has been at the core of machine learning so far in this course (except for
+the Bayesian linear regression.) 
+
+Here, we will re-formulate PCA by starting with an optimization cost, which
+is similar to the empirical cost function we have used throughout our
+discussions on supervised learning. The optimization cost function is
+defined as the reconstruction error over a given training set $D_{\tra}$:
+\begin{align*}
+    \hat{R}(\mW, \mZ; D_{\tra}) =& \sum_{n=1}^N \| \vx_n - \hat{\vx}_n
+    \|^2_2 \\
+    =& \| \mX - \mW \mZ \|_F^2.
+\end{align*}
+Looking closely at the equation at the bottom, we in fact see that this
+corresponds to finding the weight matrix $\mW$ and the code matrix $\mZ$ such
+that their product $\mW \mZ$ is close to the input matrix $\mX$, which was the
+main goal of matrix factorization from the very beginning as in
+Eq.~\eqref{eq:matfac}. 
+
+This minimization alone does not however result in PCA, as naive minimization
+would not find a solution that satisfies the first constraint. We therefore
+impose that the first constraint be satisfies during optimization. That is, 
+\begin{align*}
+    \min_{\mW, \mZ} \hat{R}(\mW, \mZ)
+\end{align*}
+subject to the constraint that
+\begin{align*}
+    \mW\text{ is a orthogonal matrix}.
+\end{align*}
+Assuming that this constraint is always satisfied during optimization, we can
+now safely replace $\mZ$ with $\mW^\top \mX$, because $\mW^\top \mW = \mI$. This
+results in 
+\begin{align*}
+    \hat{R}(\mW, \mZ; D_{\tra}) 
+    = \| \mX - \mW \mW^\top \mZ \|_F^2
+\end{align*}
+subject to 
+subject to the constraint that
+\begin{align*}
+    \mW\text{ is a orthogonal matrix}.
+\end{align*}
+
+This alternative derivation of PCA gives us a more general framework on top of
+which various matrix factorization algorithms could be implemented. In this
+general framework, the goal is to minimize the reconstruction error $\| \mX -
+\mW \mZ\|_F^p$. This is natural, as our goal is to find the weight and code
+matrices whose product is approximately the input matrix. We then need another
+mechanism $g$ , or a function, that allows us to map from a given input vector
+$\vx$ to its corresponding code vector $\vz$, i.e. $\vz =g(\vx, \mW)$. That is,
+we should be able to infer what the code matrix $\mZ$ is given the input matrix
+$\mX$ and the weight matrix $\mW$.\footnote{
+    Note that $g$ may not be a function, but a process in which the
+    reconstruction cost function is minimized with respect to the code matrix
+    $\mZ$ (instead of $\mW$). This is a usual practice in sparse coding.  
+} 
+Then, we need a certain constraint on either the weight matrix $\mW$ and/or the
+code matrix $\mZ$. In summary, a matrix factorization algorithm, or framework,
+is defined based on the following items:
+\begin{enumerate}
+    \item Cost function (almost always reconstruction error)
+    \item Inference mechanism $g$: infer $\vz$ from $\vx$ given $\mW$
+    \item Constraints on $\mW$ and/or $\mZ$
+\end{enumerate}
+Furthermore, the appropriate choice of constraints relaxes the basic assumption
+we had earlier about the dimensionality of the code vector $q$ that it is often
+much smaller than $d$. 
+
+To reiterate, in the case of PCA, the cost function is a reconstruction error
+defined in terms of Euclidean distance (or Frobenius norm). The inference
+mechanism is simply $\vz = g(\vx) = \mW^\top \vx$, and there is a single
+constraint that $\mW$ is orthogonal.
+
+Many different matrix factorization algorithms could be formulated under this
+framework. For instance, sparse coding \cite{olshausen1997sparse} is defined by
+\begin{enumerate}
+    \item Cost function: L2 reconstruction error
+    \item Inference mechanism: minimization with respect to $\mZ$
+    \item Constraint: $\| \vz \|_0=k$, for some $k>0$
+\end{enumerate}
+It is often the case with sparse coding that $q\gg d$. Independent component
+analysis (see, e.g., \cite{hyvarinen2004independent})is on the other hand
+defined by
+\begin{enumerate}
+    \item Cost function: L2 reconstruction error
+    \item Inference mechanism: minimization with respect to $\mZ$ or $g(\vx)=\mU
+        \vz$
+    \item Constraint: $z_i \bot z_j$, for all $i \neq j$
+\end{enumerate}
+$\mU$ is a matrix separate from $mW$ that recovers the code vector from an input
+vector. $\bot$ is used to denote the independence between two random variables
+(see Eq.~\eqref{eq:independence}.) Because of different choices of inference
+mechanism and constraints, these algorithms often learn different weight
+matrices and code matrices even when provided with the same input matrix $\mX$. 
+
+In the next subsection, we will consider another matrix factorization algorithm,
+called non-negative matrix factorization, that is capable of learning a
+so-called {\it part-based representation}. 
+
+
+\subsection{Non-negative Matrix Factorization: NMF}
+
+Let us consider another matrix factorization scheme called non-negative matrix
+factorization~(NMF,~\cite{lee2001algorithms}). 
+
+
+
+\subsection{Independent Component Analysis$^\star$}
+
+
+\section{Deep Autoencoders: Nonlinear PCA}
 
 
 
 
-\section{Principal Component Anslysis}
-
-\subsection{Minimum Reconstruction Criterion}
-
-\subsection{Maximum Variance Criterion}
-
-
-\section{Other Dimensionality Reduction Techniques$^\star$}
+\section{Non-Parametric Dimensionality Reduction Techniques$^\star$}
 
 \subsection{Student-t Stochastic Neighbourhood Embedding$^\star$ (tSNE)}
 
