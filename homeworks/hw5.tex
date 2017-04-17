@@ -246,6 +246,10 @@ Show that this is indeed true.
 \begin{align*}
     p(Y|X) = \frac{p(X|Y)p(Y)}{p(X)}.
 \end{align*}
+\\
+SOLUTION: We know that $p(X, Y) = p(X|Y)p(Y)$ and that $p(Y|X) = \frac{p(X, Y)}{p(X)}$\\
+Therefore: \\
+$p(Y|X) = \frac{p(X, Y)}{p(X)} = \frac{p(X|Y)p(Y)}{p(X)}$
 
 \vspace{15mm}
 
@@ -258,7 +262,12 @@ Assuming that $X$ and $Y$ are discrete random variables, show that
 \begin{align*}
     \E\left[ X + Y \right] = \E\left[X\right] + \E\left[Y \right].
 \end{align*}
-
+\\
+SOLUTION: \\
+$\E\left[ X + Y \right] = \sum_{x, y \in \Omega} (x + y) p(x, y) = \sum_{x, y \in \Omega} x p(x, y) + \sum_{x, y \in \Omega} y p(x, y)$ \\
+$= \sum_{x \in \Omega} x \sum_{y \in \Omega} p(x, y) + \sum_{y \in \Omega} y \sum_{x \in \Omega} p(x, y)$ \\
+$= \sum_{x \in \Omega} x p(x) + \sum_{y \in \Omega} y p(y)$ \\
+$= \E\left[X\right] + \E\left[Y \right]$
 \vspace{15mm}
 
 (c) Further assume that $c \in \RR$ is a scalar and is not a random variable, show
@@ -266,7 +275,8 @@ that
 \begin{align*}
     \E\left[ cX \right] = c\E\left[X\right].
 \end{align*}
-
+\\
+$\E\left[ cX \right] = \sum_{x \in \Omega} cx p(x) = c \sum_{x \in \Omega} x p(x) = c\E\left[X\right] $
 \vspace{15mm}
 
 (d) We learned the definition of variance:
