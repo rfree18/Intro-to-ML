@@ -236,8 +236,30 @@ The probability density function simplifies to
     \right).
 \end{align*}
 
-Show that this is indeed true.
-
+Show that this is indeed true. \\
+\\
+SOLUTION:\\
+$Z = (2\pi)^{-d/2} |\Sigma|^{-1/2}$
+$|\Sigma| = \prod_{i = 1}^d \sigma_i^2$ \\
+$Z = (2\pi)^{-d/2} (\prod_{i = 1}^d \sigma_i^2)^{\frac{-1}{2}}$ \\
+$= (2\pi)^{-d/2}  \prod_{i = 1}^d \frac{1}{\sigma_i}$ \\
+$= \prod_{i = 1}^d \frac{1}{\sqrt{2 \pi} \sigma_i}$ \\
+\\
+$f(\vx) = \frac{1}{Z} \exp\left( 
+        -\frac{1}{2} (\vx - \mu)^\top \Sigma^{-1} (\vx - \mu)
+    \right)$ \\
+$ = \prod_{i = 1}^d \frac{1}{\sqrt{2 \pi} \sigma_i} \exp\left( 
+        -\frac{1}{2} (\vx - \mu)^\top \Sigma^{-1} (\vx - \mu)
+    \right)$ \\
+$ = \prod_{i = 1}^d \frac{1}{\sqrt{2 \pi} \sigma_i} \exp\left( 
+        -\frac{1}{2} (x_i - \mu_i) \Sigma^{-1} (x_i - \mu_i)
+    \right)$ \\
+$ = \prod_{i=1}^d 
+    \frac{1}{\sqrt{2\pi} \sigma_i}
+    \exp\left(
+        -\frac{1}{2} \frac{1}{\sigma_i^2}(x_i - \mu_i)^2
+    \right) $
+%
 \vspace{30mm}
 
 \paragraph{2.}
@@ -283,13 +305,20 @@ $\E\left[ cX \right] = \sum_{x \in \Omega} cx p(x) = c \sum_{x \in \Omega} x p(x
 \begin{align*}
     \text{Var}(X) = \sum_{x \in \Omega} (x - \E\left[ X \right])^2 p(x).
 \end{align*}
-
+\\
+$\text{Var}(X) = \sum_{x \in \Omega} (x - \E\left[ X \right])^2 p(x)$
 Assuming $X$ being a discrete random variable, show that
 \begin{align*}
     \text{Var}(X) = \E\left[ X^2 \right] - \left(\E\left[ X \right]\right)^2.
 \end{align*}
-
-
+\\
+SOLUTION: \\
+$ \text{Var}(X) = \sum_{x \in \Omega} (x - \E\left[ X \right])^2 p(x)$ \\
+$ = \sum_{x \in \Omega} (x^2 - 2x \E\left[ X \right] + (\E\left[ X \right])^2) p(x)$ \\
+$= \sum_{x \in \Omega} x^2 p(x) - \sum_{x \in \Omega} 2x \E\left[ X \right] p(x) + \E\left[ X \right]^2 $ \\
+$ = \E\left[  x^2 \right] - 2 \E\left[ X \right] \sum_{x \in \Omega} x  p(x) + \E\left[ X \right]^2$ \\
+$= \E\left[  x^2 \right] - 2 \E\left[ X \right]^2 + \E\left[ X \right]^2$ \\
+$= \E\left[  x^2 \right] - \E\left[ X \right]^2$
 \newpage
 
 \paragraph{3.} 
