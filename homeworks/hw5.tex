@@ -337,8 +337,17 @@ Assuming that the distance function is defined as
     \frac{1}{2} \sum_{k=1}^q (y^*_k - y_k)^2,
 \end{align*}
 derive the optimal weight matrix $\mW$. (Hint: Moore–Penrose pseudoinverse)
-
-
+\\
+\\
+SOLUTION: \\
+$D(M^*(\vx), M, \vx) = \frac{1}{2} \sum_{k=1}^q (y^*_k - y_k)^2$ \\
+$= \frac{1}{2} \sum_{k=1}^q (y^*_k - w_k^\top x_k)^2$ \\
+\\
+$\nabla_{\vw}D = - \sum_{k=1}^q (y^*_k - w_k^\top x_k) x_k$ \\
+$= X^\top (Y^* - W^\top X)$\\
+$= X^\top Y^* - X^\top X W = 0$ \\
+$X^\top X W = X^\top Y^*$ \\
+$W = (X^\top X)^{-1}X^\top Y^*$\\
 \vspace{15mm}
 
 (b) (Extra Credit) Derive a  probability density function of the predictive distribution of
