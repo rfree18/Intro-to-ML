@@ -112,6 +112,7 @@
 \newcommand{\mR}[0]{\matr{R}}
 \newcommand{\mS}{\matr{S}}
 \newcommand{\mI}{\matr{I}}
+\newcommand{\mZ}{\matr{Z}}
 \newcommand{\td}[0]{\text{d}}
 \newcommand{\TT}[0]{\vects{\theta}}
 \newcommand{\vsig}[0]{\vects{\sigma}}
@@ -201,11 +202,17 @@
 
 (a) Why is it more efficient to process data points if they are lower-dimensional
 vectors? State one reason.
+\\
+\\
+SOLUTION: When the data points are lower dimensional, it means that there is overall less data for the model to process. This makes it easier to apply train the classifiers and to adapt the data to linear models.
 
 \vspace{5mm}
 
 (b) What is a potential trouble of reducing the dimensionality of input vectors
 before training a classifier? State one reason.
+\\
+\\
+SOLUTION: When reducing the dimensionality, we are also losing some data in the process. While some of this data might not be indicative of its classification, it can contain some important information. By removing it, the model might have a harder time classifying similar data, thereby increasing the reconstruction error.
 
 \vspace{5mm}
 
@@ -220,7 +227,16 @@ as
 \end{align*}
 where $\vw_i$ is the $i$-th principal component or the eigenvector of the input
 covariance matrix $\mC$.
-
+\\
+\\
+SOLUTION: \\
+$ \| \vx - \hat{\vx} \|^2_2 
+    \left\| \sum_{i=1}^q (z'_i - z_i) \vw_i + \sum_{j=q+1}^d z'_j \vw_j \right\|^2_2 \\
+    \left\| \sum_{j=q+1}^d z'_j \vw_j \right\|^2_2 \\
+    \sum_{j=q+1}^d {z'}_j^2 \| \vw_j \|^2 \\
+    \sum_{j=q+1}^d {z'}_j^2 \\
+    \sum_{j=q+1}^d \vw_i^\top \vx \vx^\top_{\vw_i} \\
+    \sum_{j=q+1}^d \vw_i^\top \mC \vw_i.$
 
 \vspace{15mm}
 
@@ -245,7 +261,18 @@ matrix, and
     \right]
 \end{align*}
 is the covariance matrix of the code vectors.
-
+\\
+\\
+SOLUTION: \\
+$\mC = \mX \mX^\top$ \\
+$= (\mW \mZ)(\mW \mZ)^\top$ \\
+$= \mW \mZ \mZ^\top \mW^\top -> \Sigma = \mZ \mZ^\top$ \\
+$= \mW \Sigma \mW^\top$\\
+\\
+$\sigma_j^2 = \vw_j^\top \mC \vw_j$\\
+$= \vw_j^\top (\mW \Sigma \mW^\top) \vw_j$ \\
+Since $\mW$ is orthogonal, then $\mW \mW^\top = I$ and $ \vw_j^\top  \vw_j = I$\\
+$\sigma_j^2 = \Sigma$
 \vspace{30mm}
 
 
