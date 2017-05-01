@@ -1,0 +1,281 @@
+\documentclass{article}
+\usepackage{authblk}
+\usepackage{mathptmx}
+\usepackage{url,latexsym,amsmath,amsthm,xspace,rotating,multirow,multicol,xspace,amssymb,paralist}
+\usepackage{euscript}
+\usepackage{fancybox,xcolor}
+\usepackage{longtable}
+\usepackage{paralist}
+\usepackage[normalem]{ulem}
+\usepackage[pdftex]{hyperref}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{cancel}
+\usepackage{mathtools}
+
+\usepackage{url}
+\usepackage{latexsym}
+
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{xspace}
+\usepackage{tabularx}
+\usepackage{multicol}
+\usepackage{multirow}
+%\usepackage{hyperref}
+\usepackage{url}
+%\usepackage{natbib}
+\usepackage{wrapfig}
+\usepackage{comment}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyvrb}
+\usepackage{booktabs}
+\usepackage{color}
+\usepackage[normalem]{ulem}
+
+\newcommand{\obs}{\text{obs}}
+\newcommand{\mis}{\text{mis}}
+
+\newcommand{\qt}[1]{\left<#1\right>}
+\newcommand{\ql}[1]{\left[#1\right]}
+\newcommand{\hess}{\mathbf{H}}
+\newcommand{\jacob}{\mathbf{J}}
+\newcommand{\hl}{HL}
+\newcommand{\cost}{\mathcal{L}}
+\newcommand{\lout}{\mathbf{r}}
+\newcommand{\louti}{r}
+\newcommand{\outi}{y}
+\newcommand{\out}{\mathbf{y}}
+\newcommand{\gauss}{\mathbf{G_N}}
+\newcommand{\eye}{\mathbf{I}}
+\newcommand{\softmax}{\text{softmax}}
+\newcommand{\targ}{\mathbf{t}}
+\newcommand{\metric}{\mathbf{G}}
+\newcommand{\sample}{\mathbf{z}}
+\newcommand{\f}{\text{f}}
+%\newcommand{\log}{\text{log}}
+
+\newcommand{\bmx}[0]{\begin{bmatrix}}
+\newcommand{\emx}[0]{\end{bmatrix}}
+\newcommand{\qexp}[1]{\left<#1\right>}
+\newcommand{\vect}[1]{\mathbf{#1}}
+\newcommand{\vects}[1]{\boldsymbol{#1}}
+\newcommand{\matr}[1]{\mathbf{#1}}
+\newcommand{\var}[0]{\operatorname{Var}}
+\newcommand{\std}[0]{\operatorname{std}}
+\newcommand{\cov}[0]{\operatorname{Cov}}
+\newcommand{\diag}[0]{\operatorname{diag}}
+\newcommand{\matrs}[1]{\boldsymbol{#1}}
+\newcommand{\va}[0]{\vect{a}}
+\newcommand{\vb}[0]{\vect{b}}
+\newcommand{\vc}[0]{\vect{c}}
+\newcommand{\ve}[0]{\vect{e}}
+
+\newcommand{\vh}[0]{\vect{h}}
+\newcommand{\vv}[0]{\vect{v}}
+\newcommand{\vx}[0]{\vect{x}}
+\newcommand{\vp}[0]{\vect{p}}
+\newcommand{\vz}[0]{\vect{z}}
+\newcommand{\vw}[0]{\vect{w}}
+\newcommand{\vs}[0]{\vect{s}}
+\newcommand{\vf}[0]{\vect{f}}
+\newcommand{\vi}[0]{\vect{i}}
+\newcommand{\vo}[0]{\vect{o}}
+\newcommand{\vd}[0]{\vect{d}}
+\newcommand{\vy}[0]{\vect{y}}
+\newcommand{\vg}[0]{\vect{g}}
+\newcommand{\vm}[0]{\vect{m}}
+\newcommand{\vu}[0]{\vect{u}}
+\newcommand{\vL}[0]{\vect{L}}
+\newcommand{\vr}[0]{\vect{r}}
+\newcommand{\vone}[0]{\vect{1}}
+
+\newcommand{\mW}[0]{\matr{W}}
+\newcommand{\mE}[0]{\matr{E}}
+\newcommand{\mG}[0]{\matr{G}}
+\newcommand{\mX}[0]{\matr{X}}
+\newcommand{\mY}[0]{\matr{Y}}
+\newcommand{\mQ}[0]{\matr{Q}}
+\newcommand{\mB}[0]{\matr{B}}
+\newcommand{\mU}[0]{\matr{U}}
+\newcommand{\mF}[0]{\matr{F}}
+\newcommand{\mV}[0]{\matr{V}}
+\newcommand{\mA}{\matr{A}}
+\newcommand{\mC}{\matr{C}}
+\newcommand{\mD}{\matr{D}}
+\newcommand{\mL}[0]{\matr{L}}
+\newcommand{\mR}[0]{\matr{R}}
+\newcommand{\mS}{\matr{S}}
+\newcommand{\mI}{\matr{I}}
+\newcommand{\td}[0]{\text{d}}
+\newcommand{\TT}[0]{\vects{\theta}}
+\newcommand{\vsig}[0]{\vects{\sigma}}
+\newcommand{\valpha}[0]{\vects{\alpha}}
+\newcommand{\vmu}[0]{\vects{\mu}}
+\newcommand{\vzero}[0]{\vect{0}}
+\newcommand{\tf}[0]{\text{m}}
+\newcommand{\tdf}[0]{\text{dm}}
+\newcommand{\grad}[0]{\nabla}
+\newcommand{\alert}[1]{\textcolor{red}{#1}}
+\newcommand{\N}[0]{\mathcal{N}}
+\newcommand{\YY}[0]{\mathcal{Y}}
+\newcommand{\BB}[0]{\mathcal{B}}
+\newcommand{\LL}[0]{\mathcal{L}}
+\newcommand{\HH}[0]{\mathcal{H}}
+\newcommand{\RR}[0]{\mathbb{R}}
+\newcommand{\MM}[0]{\mathcal{M}}
+\newcommand{\OO}[0]{\mathbb{O}}
+\newcommand{\II}[0]{\mathbb{I}}
+\newcommand{\Scal}[0]{\mathcal{S}}
+\newcommand{\sigmoid}{\sigma}
+\newcommand{\sign}{\text{sign}}
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\enabla}[0]{\ensuremath{%
+    \overset{\raisebox{-0.3ex}[0.5ex][0ex]{%
+    \ensuremath{\scriptscriptstyle e}}}{\nabla}}}
+\newcommand{\enhnabla}[0]{\nabla_{\hspace{-0.5mm}e}\,}
+\newcommand{\eos}[0]{\ensuremath{\left< \text{eos}\right>}}
+
+
+\newcommand{\todo}[1]{{\Large\textcolor{red}{#1}}}
+\newcommand{\done}[1]{{\Large\textcolor{green}{#1}}}
+\newcommand{\dd}[1]{\ensuremath{\mbox{d}#1}}
+
+\DeclareMathOperator*{\argmax}{\arg \max}
+\DeclareMathOperator*{\argmin}{\arg \min}
+\newcommand{\newln}{\\&\quad\quad{}}
+
+\newcommand{\BP}{\text{BP}}
+\newcommand{\PPL}{\text{PPL}}
+\newcommand{\PL}{\text{PL}}
+\newcommand{\MatSum}{\text{MatSum}}
+\newcommand{\MatMul}{\text{MatMul}}
+\newcommand{\KL}{\text{KL}}
+\newcommand{\data}{\text{data}}
+\newcommand{\rect}{\text{rect}}
+\newcommand{\maxout}{\text{maxout}}
+\newcommand{\train}{\text{train}}
+\newcommand{\hinge}{\text{hinge}}
+\newcommand{\val}{\text{val}}
+\newcommand{\init}{\text{init}}
+\newcommand{\fenc}{\text{fenc}}
+\newcommand{\renc}{\text{renc}}
+\newcommand{\enc}{\text{enc}}
+\newcommand{\dec}{\text{dec}}
+\newcommand{\test}{\text{test}}
+\newcommand{\tra}{\text{tra}}
+\newcommand{\Ax}{\mathcal{A}_x}
+\newcommand{\Ay}{\mathcal{A}_y}
+\newcommand{\ola}{\overleftarrow}
+\newcommand{\ora}{\overrightarrow}
+\newcommand{\ov}{\overline}
+\newcommand{\ts}{\rule{0pt}{2.6ex}}       % Top strut
+\newcommand{\ms}{\rule{0pt}{0ex}}         % Middle strut
+\newcommand{\bs}{\rule[-1.2ex]{0pt}{0pt}} % Bottom strut
+\newcommand{\specialcell}[2][c]{%
+  \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+
+%\usepackage{bibentry}
+%\nobibliography*
+
+\begin{document}
+\title{Methods for Feature Learning and Extraction}
+\author{Ross Freeman}
+\date{\today}
+\maketitle
+\section{Introduction}
+
+Feature learning is widely regarded as a fundamental basis for many modern machine learning algorithms, specifically those classified under unsupervised learning. Its applications span a wide variety of fields, ranging from determining the connectedness of airports to classifying an apartment?s location based solely on a few properties. In particular, researchers have focused on image recognition; they are intrigued that the human brain can easily process and interpret images, yet even extremely powerful computers struggle to do the same. It is only logical then that researchers have turned to the human brain for inspiration and have attempted to mimic the visual cortex?s operations in code. Several methods and algorithms have developed over the years with some remarkable success, despite their drawbacks	
+In general, these algorithms follow a similar structure in terms of their derivation and operation. The basic equation that they try to solve is \begin{align*}
+    X = W Z
+\end{align*}where  is the code matrix that represents a decomposed version of the input set and  is the weight matrix, which varies based on the output we are trying to derive. From here, the models diverge by placing different constraints on the input, the code matrix, or the weight matrix. In some cases, the constraint is enforced by transforming the input to satisfy it. A reconstruction error is then defined and minimized to determine the best code matrix for the model. Some methods also outline a method for preprocessing the input, which helps increase the accuracy of the trained model.
+
+\section{Sparse Coding}
+
+In their paper on sparse coding, Bruno Olshausen and David Field utilize the above steps to recreate the visual cortex?s functionality to improve image recognition. From their perspective, the brain removes redundancy from the information it receives from the photoreceptors and represents the image as a collection of independent events (Olshausen 3311). Previous research in sparse coding focused on 2-dimensional redundancy reduction, which completely omits curves and other higher dimensional collections seen in natural images. To increase the accuracy of existing sparse coding algorithms, Olshausen and Field explore the creation of a linear strategy that can reduce higher order redundancy. 
+They use the following equation to create such a strategy, which is a slight modification of the feature extraction equation described earlier:
+\begin{align*}
+    I(x) = \sum_i a_i \phi_i (x)
+\end{align*}
+where $\phi_i (x)$ represents the basis vectors that determine the image code and $a_i$ is the collection of amplitudes for each basis vector, which is computed for each image. The goal now is to find a set of basis vectors that can accurately represent the basic image structure of the input. An added constraint that Olshausen and Field make is that the basis functions must be overcomplete, which is when the number of basis vectors exceeds the dimensionality of the input. This will make the model more robust in the face of noise and help create greater flexibility in matching the model to the input since there can be multiple amplitudes that output the same image. 
+
+Finding the best set of basis vectors is analogous to creating a model with a probability distribution of each image ($P(I | \phi$)) that matches the probability distribution of images experienced in nature ($P(I^*)$) (3313). The Kullback-Leibler divergence is used as their reconstruction error, which is defined as:
+\begin{align*}
+   KL = \int P^*(I) \log \frac{P^*(I)}{P(I | \phi)} dI
+\end{align*}
+where it is equal to 0 if and only if the two distributions are equivalent. Since the probability distribution of nature is fixed, Olshausen and Field focus on the log likelihood instead. The optimization function thus becomes:
+\begin{align*}
+   \phi^* = argmax_\phi [ argmax_a \log P(I | a, \phi) P(a) ]
+\end{align*}
+and the learning rule for the model is:
+\begin{align*}
+   \Delta \phi_i (x) = \eta (a_i r(x))
+\end{align*}
+where $r(x)$ is defined as the residual image, or the difference between the output of the machine and the intended output. While their algorithm is quite accurate compared to other similar models, it is also slow and restricted. It assumes a linear image model, which is not always the case in nature. It also only consists of a single layer, preventing it from being as accurate as possible.
+
+\section{Independent Component Analysis}
+
+Aapo Hyvarinen and Erkki Oja describe another feature extraction algorithm known as ICA, or Independent Component Analysis. One of the many goals of ICA is to solve the cocktail party problem, which is to separate independent signals from a mixed signal input. They define their model as:
+\begin{align*}
+   \vx = \mA \vs
+\end{align*}
+where $\mA$ is the mixing matrix and $\vs$ is the signal matrix. This is very similar to both the general model described earlier as well as the model derived for sparse coding. Once $A$ is estimated, the signal matrix can be derived with:
+\begin{align*}
+   \vs = \mW \vx
+\end{align*}
+where $W$ is the inverse of $A$.
+
+Hyvarinen and Oja developed several constraints on their model that serves to differentiate it from other feature extraction algorithms. First of all, each component in $\vs$ is constrained to be statistically independent and have a non-Gaussian distribution. Non-Gaussianity is necessary for this model since a Gaussian distribution is symmetric, which does not give any indication of the direction of the columns in the mixing matrix, thus making it impossible to derive. Additionally, since both $\vs$ and $\mA$ are totally unknown, then the variance cannot be determined. Thus, the variance is arbitrarily fixed at 1 to simplify the model. 
+
+As seen earlier, the given derivation of the signal matrix requires that the mixing matrix be known. Since nothing can be assumed about the mixing matrix, Hyvarinen and Oja instead derive an estimator that can give a good estimation. They base their estimator off the equation:\begin{align*}
+   \vw^\top \vx = \vz^\top \vs
+\end{align*}
+where $z = \mA \vw^\top$. Thus, they determined that their problem is to maximize the non-Gaussianity of $\vw^\top \vx$. The researchers outline two main measures of non-Gaussianity, each of which has many advantages and disadvantages. They eventually determine that both estimators are impractical and instead focus on minimizing mutual information, which is defined as:
+\begin{align*}
+   I(y_1, y_2, \ldots , y_m) = \sum_{i=1}^{m} H(y_i) - H(y)
+\end{align*}
+where $H(y) = - \int f(y) \log f(y) dy$ is the differential entropy and $f(y)$ is the density of $y$. This equation is always nonnegative and equals 0 if and only if every variable is statistically independent. Hyvarinen and Oja continue to describe an additional measure of non-Gaussianity, but conclude that it is very much similar to minimizing the mutual information.
+
+An area that particularly differentiates their approach from others is the process of preprocessing data. They describe two main ways in which this is done. The first is to center the input, which merely simplifies the computation of ICA. The second is to whiten the input, or to linearly transform it such that its components are uncorrelated and of equal variance. This makes the mixing matrix orthogonal and reduces the number of parameters that need to be estimated. 
+
+\section{Non-negative Matrix Factorization}
+
+Non-negative Matrix Factorization (NMF) is an algorithm that has been around for several years and was the focus of a paper by Daniel Lee and H. Sebastian Seung. Much like the models previously explored, Lee and Seung use the following equation as the basis for NMF:
+\begin{align*}
+ V \approx WH
+\end{align*}
+What makes this particular algorithm standout is its constraint. In fact, the constraint is in its very name ? that the matrices in the equation are non-negative. The overall simplicity of this algorithm makes it very simple to implement, despite its increased computation time.
+
+In determining a cost function, Lee and Seung discussed two distinct possibilities. The first is to minimize the Euclidean distance, which is defined as:
+\begin{align*}
+ || V - WH ||_2^2
+\end{align*}
+The second is to minimize the divergence, which is defined as:\begin{align*}
+ D(V || WH) = \sum_{ij} (V_{ij} \log \frac{V_{ij}}{WH_{ij}} - V_{ij} + WH_{ij})
+\end{align*}
+Both functions converge, as proven by the researchers, making them excellent candidates for a cost function, though neither is definitively better than the other.
+
+Where this algorithm diverges from most others is in its update rule. Rather than using an additive update rule, the authors instead chose to use a multiplicative one, defined as:
+\begin{align*}
+ H_{a \mu} \leftarrow H_{a \mu} \frac{(W^\top V)_{a \mu}}{(W^\top W H)_{a \mu}} \\
+ W_{ia} \leftarrow W_{ia} \frac{(V H^\top)_{ia}}{(WHH^\top)_{iat}}
+\end{align*}
+for the Euclidean distance cost function and:
+\begin{align*}
+ H_{a \mu} \leftarrow H_{a \mu} \frac{\sum_i W_{ia}V_{i \mu} / (WH)_{i \mu}}{\sum_k W_{ka}} \\
+ W_{ia} \leftarrow W_{ia} \frac{\sum_\mu H_{a \mu}V_{i \mu} / (WH)_{i \mu}}{\sum_v H_{av}}
+\end{align*}
+for the divergence cost function. These multiplicative equations are simply a rescaled version of the additive update rule, potentially increasing the speed at which the model is updated.
+
+%\bibliographystyle{abbrv}
+%\bibliography{../lecture_note}
+
+
+\end{document}
