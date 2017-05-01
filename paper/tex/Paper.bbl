@@ -1,0 +1,32 @@
+\begin{thebibliography}{1}
+
+\bibitem{Hinton504}
+G.~E. Hinton and R.~R. Salakhutdinov.
+\newblock Reducing the dimensionality of data with neural networks.
+\newblock {\em Science}, 313(5786):504--507, 2006.
+
+\bibitem{Hyvarinen2000411}
+A.~Hyvarinen and E.~Oja.
+\newblock Independent component analysis: algorithms and applications.
+\newblock {\em Neural Networks}, 13(45):411 -- 430, 2000.
+
+\bibitem{NIPS2000_1861}
+D.~D. Lee and H.~S. Seung.
+\newblock Algorithms for non-negative matrix factorization.
+\newblock In T.~K. Leen, T.~G. Dietterich, and V.~Tresp, editors, {\em Advances
+  in Neural Information Processing Systems 13}, pages 556--562. MIT Press,
+  2001.
+
+\bibitem{Olshausen19973311}
+B.~A. Olshausen and D.~J. Field.
+\newblock Sparse coding with an overcomplete basis set: A strategy employed by
+  v1?
+\newblock {\em Vision Research}, 37(23):3311 -- 3325, 1997.
+
+\bibitem{vincent2010stacked}
+P.~Vincent, H.~Larochelle, I.~Lajoie, Y.~Bengio, and P.-A. Manzagol.
+\newblock Stacked denoising autoencoders: Learning useful representations in a
+  deep network with a local denoising criterion.
+\newblock {\em Journal of Machine Learning Research}, 11(Dec):3371--3408, 2010.
+
+\end{thebibliography}

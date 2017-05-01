@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  30 APR 2017 20:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  1 MAY 2017 11:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1188,29 +1188,23 @@ File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 ) [1
 
 {/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 291.
  [4]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 291.
-
-(./Paper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 291.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 291.
-
-
-Package rerunfilecheck Warning: File `Paper.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `Paper.out':
-(rerunfilecheck)             Before: 670F1DB587A6607094BBE8CBA0938951;228
-(rerunfilecheck)             After:  E6E49934A3F258E44018C94D8F1CDD60;293.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 291.
+(./Paper.bbl)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 295.
+ [5]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 295.
+ (./Paper.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 295.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 295.
+Package rerunfilecheck Info: File `Paper.out' has not changed.
+(rerunfilecheck)             Checksum: E6E49934A3F258E44018C94D8F1CDD60;293.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 295.
  ) 
 Here is how much of TeX's memory you used:
- 11285 strings out of 493014
- 159647 string characters out of 6133351
- 258852 words of memory out of 5000000
- 14595 multiletter control sequences out of 15000+600000
+ 11301 strings out of 493014
+ 159879 string characters out of 6133351
+ 259035 words of memory out of 5000000
+ 14601 multiletter control sequences out of 15000+600000
  27855 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  34i,9n,35p,827b,336s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1224,10 +1218,10 @@ f-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2016/texmf-dist/font
 s/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/ur
 w/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times/ut
 mri8a.pfb>
-Output written on Paper.pdf (4 pages, 86336 bytes).
+Output written on Paper.pdf (5 pages, 92986 bytes).
 PDF statistics:
- 82 PDF objects out of 1000 (max. 8388607)
- 66 compressed objects within 1 object stream
- 10 named destinations out of 1000 (max. 500000)
- 33 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 96 PDF objects out of 1000 (max. 8388607)
+ 79 compressed objects within 1 object stream
+ 17 named destinations out of 1000 (max. 500000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

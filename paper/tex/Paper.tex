@@ -194,15 +194,19 @@
 \maketitle
 \section{Introduction}
 
-Feature learning is widely regarded as a fundamental basis for many modern machine learning algorithms, specifically those classified under unsupervised learning. Its applications span a wide variety of fields, ranging from determining the connectedness of airports to classifying an apartment's location based solely on a few properties. In particular, researchers have focused on image recognition; they are intrigued that the human brain can easily process and interpret images, yet even extremely powerful computers struggle to do the same. It is only logical then that researchers have turned to the human brain for inspiration and have attempted to mimic the visual cortex's operations in code. Several methods and algorithms have developed over the years with some remarkable success, despite their drawbacks	
-In general, these algorithms follow a similar structure in terms of their derivation and operation. The basic equation that they try to solve is:\begin{align*}
+Feature learning is widely regarded as a fundamental basis for many modern machine learning algorithms, specifically those classified under unsupervised learning. Its applications span a wide variety of fields, ranging from determining the connectedness of airports to classifying an apartment's location based solely on a few properties. In particular, researchers have focused on image recognition; they are intrigued that the human brain can easily process and interpret images, yet even extremely powerful computers struggle to do the same. It is only logical then that researchers have turned to the human brain for inspiration and have attempted to mimic the visual cortex's operations in code. Several methods and algorithms have developed over the years with some remarkable success, despite their drawbacks
+	
+In general, these algorithms follow a similar structure in terms of their derivation and operation. The basic equation that they try to solve is:
+\begin{align*}
     X = W Z
-\end{align*}where  is the code matrix that represents a decomposed version of the input set and  is the weight matrix, which varies based on the output we are trying to derive. From here, the models diverge by placing different constraints on the input, the code matrix, or the weight matrix. In some cases, the constraint is enforced by transforming the input to satisfy it. A reconstruction error is then defined and minimized to determine the best code matrix for the model. Some methods also outline a method for preprocessing the input, which helps increase the accuracy of the trained model.
+\end{align*}
+where  is the code matrix that represents a decomposed version of the input set and  is the weight matrix, which varies based on the output we are trying to derive. From here, the models diverge by placing different constraints on the input, the code matrix, or the weight matrix. In some cases, the constraint is enforced by transforming the input to satisfy it. A reconstruction error is then defined and minimized to determine the best code matrix for the model. Some methods also outline a method for preprocessing the input, which helps increase the accuracy of the trained model.
 
 \section{Sparse Coding}
 
 In their paper on sparse coding, Bruno Olshausen and David Field utilize the above steps to recreate the visual cortex's functionality to improve image recognition. From their perspective, the brain removes redundancy from the information it receives from the photoreceptors and represents the image as a collection of independent events (Olshausen 3311). Previous research in sparse coding focused on 2-dimensional redundancy reduction, which completely omits curves and other higher dimensional collections seen in natural images. To increase the accuracy of existing sparse coding algorithms, Olshausen and Field explore the creation of a linear strategy that can reduce higher order redundancy. 
-They use the following equation to create such a strategy, which is a slight modification of the feature extraction equation described earlier:
+
+They use the following equation to create such a strategy, which is a slight modification of the feature extraction equation described earlier:
 \begin{align*}
     I(x) = \sum_i a_i \phi_i (x)
 \end{align*}
@@ -236,7 +240,8 @@ where $W$ is the inverse of $A$.
 
 Hyvarinen and Oja developed several constraints on their model that serves to differentiate it from other feature extraction algorithms. First of all, each component in $\vs$ is constrained to be statistically independent and have a non-Gaussian distribution. Non-Gaussianity is necessary for this model since a Gaussian distribution is symmetric, which does not give any indication of the direction of the columns in the mixing matrix, thus making it impossible to derive. Additionally, since both $\vs$ and $\mA$ are totally unknown, then the variance cannot be determined. Thus, the variance is arbitrarily fixed at 1 to simplify the model. 
 
-As seen earlier, the given derivation of the signal matrix requires that the mixing matrix be known. Since nothing can be assumed about the mixing matrix, Hyvarinen and Oja instead derive an estimator that can give a good estimation. They base their estimator off the equation:\begin{align*}
+As seen earlier, the given derivation of the signal matrix requires that the mixing matrix be known. Since nothing can be assumed about the mixing matrix, Hyvarinen and Oja instead derive an estimator that can give a good estimation. They base their estimator off the equation:
+\begin{align*}
    \vw^\top \vx = \vz^\top \vs
 \end{align*}
 where $z = \mA \vw^\top$. Thus, they determined that their problem is to maximize the non-Gaussianity of $\vw^\top \vx$. The researchers outline two main measures of non-Gaussianity, each of which has many advantages and disadvantages. They eventually determine that both estimators are impractical and instead focus on minimizing mutual information, which is defined as:
@@ -259,7 +264,8 @@ In determining a cost function, Lee and Seung discussed two distinct possibiliti
 \begin{align*}
  || V - WH ||_2^2
 \end{align*}
-The second is to minimize the divergence, which is defined as:\begin{align*}
+The second is to minimize the divergence, which is defined as:
+\begin{align*}
  D(V || WH) = \sum_{ij} (V_{ij} \log \frac{V_{ij}}{WH_{ij}} - V_{ij} + WH_{ij})
 \end{align*}
 Both functions converge, as proven by the researchers, making them excellent candidates for a cost function, though neither is definitively better than the other.
@@ -278,8 +284,12 @@ for the divergence cost function. These multiplicative equations are simply a re
 
 \section {Stacked Denoising Autoencoders}
 
-%\bibliographystyle{abbrv}
-%\bibliography{../lecture_note}
+
+\newpage
+
+\nocite{*}
+\bibliographystyle{abbrv}
+\bibliography{Paper}
 
 
 \end{document}
