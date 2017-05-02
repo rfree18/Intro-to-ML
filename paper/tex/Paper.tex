@@ -296,6 +296,24 @@ where $\theta = \{ \mW, \vx \}$ are the parameters to be learned. This appears v
 \end{align*}
 where $\theta^{'} = \{ \mW^{'}, \vb^{'} \}$, $\vy$ is the hidden representation output from the encoder, and $\vz$ is the output of the decoder. 
 
+\todo {Go more in depth + discuss reconstruction}
+
+What differentiates the researcher's model from others is that it preprocesses the input, similar to ICA. An issue with the reconstruction error defined earlier is that the model will trivially solve the problem to simply be $X = Y$, which is a very uninteresting solution. The traditional solution to this problem is to simply reduce the dimensionality of $Y$ to produce an under-complete representation. The obvious implication is that this results in a loss of data and essentially makes this algorithm perform PCA.
+
+The researchers instead decided to "corrupt" the input by preprocessing it through a noising algorithm. The corrupted input is then used to train the model. However, the reconstruction error still compares the output of the decoder and the original, uncorrupted input. This process will help provide a more interesting model that retains the dimensionality of the initial input. 
+
+As for how to corrupt the input, the paper discusses focuses on a well established noise algorithm called Masking Noise. This algorithm takes a fraction $v$ of the elements of $\vx$ at random and forces them to 0. The autoencoder is thus trained to be able to "fill" in these 0's, providing for a useful and interesting model.
+
+This modification to the traditional autoencoder model also warrants a change to the reconstruction error. Since we want to output the uncorrupted $\vx$, the loss function should put an emphasis on the corrupted elements. This makes the squared loss function:
+\begin{align*}
+L_{2, \alpha} (\vx, \vz) = \alpha (\sum_{j \in \tilde{\vx}} (\vx_j -\vz_j)^2) + \beta ((\sum_{j \notin \tilde{\vx}} (\vx_j -\vz_j)^2) 
+\end{align*}
+and the cross-entropy loss:
+\begin{align*}
+L_{H, \alpha} (\vx, \vz) = \alpha (- \sum_{j \in \tilde{\vx}} (\vx_j \log \vz_j + (1- \vx_j) \log (1-\vz_j)) + 
+\beta(- \sum_{j \notin \tilde{\vx}} (\vx_j \log \vz_j + (1- \vx_j) \log (1-\vz_j))
+\end{align*}
+where $\alpha$ and $\beta$ define how much to weigh the corrupted elements versus the uncorrupted elements.
 \newpage
 
 \nocite{*}
