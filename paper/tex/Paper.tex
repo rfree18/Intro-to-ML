@@ -313,7 +313,20 @@ and the cross-entropy loss:
 L_{H, \alpha} (\vx, \vz) = \alpha (- \sum_{j \in \tilde{\vx}} (\vx_j \log \vz_j + (1- \vx_j) \log (1-\vz_j)) + 
 \beta(- \sum_{j \notin \tilde{\vx}} (\vx_j \log \vz_j + (1- \vx_j) \log (1-\vz_j))
 \end{align*}
-where $\alpha$ and $\beta$ define how much to weigh the corrupted elements versus the uncorrupted elements.
+where $\alpha$ and $\beta$ define how much to weigh the corrupted elements versus the uncorrupted elements. $\alpha$ can be set to 1 and $\beta$ set to 0 to make the model only account for the corrupted elements.
+
+To further improve the accuracy of the model, the autoencoder can be stacked. In other words, once the denoising autoencoder is trained, the uncorrupted input is then passed through to the trained model and the output is used to train a second. Layer. This can be repeated multiple times and then topped off with a basic supervised learning algorithm, such as logistic regression, to create a deep neural network.
+
+Experimentally, the researchers show that the SDAE with 3 layers outperforms a standard SAE as well as a number of other models in almost every test they perform. This makes the SDAE an excellent model for feature learning, especially given its relatively simple implementation. The main ambiguity that the researchers leave is which noise algorithm should be used, noting that the optimal one will likely vary depending on what the model is trying to accomplish.
+
+\section{Another Autoencoder Approach} 
+
+G.E. Hinton and R. R. Salakhutdinov discuss another modification to that can be made to the classic stacked autoencoder model. They define SAE exactly like the previous paper, but the modification they make is the addition of preprocessing on the weight matrix. Normally, the weight matrix is initialized to either random values or to some set of fixed values. However, this can lead to decreased performance, depending on the input data used. If the initial weights are rather large, the autoencoders will struggle to find a local minima of the discrepancy between the original input and the output. With small initial weights, the gradients in earlier layers are tiny, making it practically infeasible to train later layers. 
+
+The researchers propose a pretraining algorithm that can somehow set good initial values for the weight matrix to produce an optimal model.
+
+
+
 \newpage
 
 \nocite{*}
