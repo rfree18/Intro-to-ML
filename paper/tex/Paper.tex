@@ -204,7 +204,7 @@ where  is the code matrix that represents a decomposed version of the input set 
 
 \section{Sparse Coding}
 
-In their paper on sparse coding, Bruno Olshausen and David Field utilize the above steps to recreate the visual cortex's functionality to improve image recognition. From their perspective, the brain removes redundancy from the information it receives from the photoreceptors and represents the image as a collection of independent events (Olshausen 3311). Previous research in sparse coding focused on 2-dimensional redundancy reduction, which completely omits curves and other higher dimensional collections seen in natural images. To increase the accuracy of existing sparse coding algorithms, Olshausen and Field explore the creation of a linear strategy that can reduce higher order redundancy. 
+In their paper on sparse coding, Bruno Olshausen and David Field utilize the above steps to recreate the visual cortex's functionality to improve image recognition. From their perspective, the brain removes redundancy from the information it receives from the photoreceptors and represents the image as a collection of independent events. Previous research in sparse coding focused on 2-dimensional redundancy reduction, which completely omits curves and other higher dimensional collections seen in natural images. To increase the accuracy of existing sparse coding algorithms, Olshausen and Field explore the creation of a linear strategy that can reduce higher order redundancy. 
 
 They use the following equation to create such a strategy, which is a slight modification of the feature extraction equation described earlier:
 \begin{align*}
@@ -212,7 +212,7 @@ They use the following equation to create such a strategy, which is a slight mod
 \end{align*}
 where $\phi_i (x)$ represents the basis vectors that determine the image code and $a_i$ is the collection of amplitudes for each basis vector, which is computed for each image. The goal now is to find a set of basis vectors that can accurately represent the basic image structure of the input. An added constraint that Olshausen and Field make is that the basis functions must be overcomplete, which is when the number of basis vectors exceeds the dimensionality of the input. This will make the model more robust in the face of noise and help create greater flexibility in matching the model to the input since there can be multiple amplitudes that output the same image. 
 
-Finding the best set of basis vectors is analogous to creating a model with a probability distribution of each image ($P(I | \phi$)) that matches the probability distribution of images experienced in nature ($P(I^*)$) (3313). The Kullback-Leibler divergence is used as their reconstruction error, which is defined as:
+Finding the best set of basis vectors is analogous to creating a model with a probability distribution of each image ($P(I | \phi$)) that matches the probability distribution of images experienced in nature ($P(I^*)$). The Kullback-Leibler divergence is used as their reconstruction error, which is defined as:
 \begin{align*}
    KL = \int P^*(I) \log \frac{P^*(I)}{P(I | \phi)} dI
 \end{align*}
@@ -258,7 +258,7 @@ Non-negative Matrix Factorization (NMF) is an algorithm that has been around for
 \begin{align*}
  V \approx WH
 \end{align*}
-What makes this particular algorithm standout is its constraint. In fact, the constraint is in its very name ? that the matrices in the equation are non-negative. The overall simplicity of this algorithm makes it very simple to implement, despite its increased computation time.
+What makes this particular algorithm standout is its constraint. In fact, the constraint is in its very name - that the matrices in the equation are non-negative. The overall simplicity of this algorithm makes it very simple to implement, despite its increased computation time.
 
 In determining a cost function, Lee and Seung discussed two distinct possibilities. The first is to minimize the Euclidean distance, which is defined as:
 \begin{align*}
@@ -284,6 +284,17 @@ for the divergence cost function. These multiplicative equations are simply a re
 
 \section {Stacked Denoising Autoencoders}
 
+Pascal Vincent, Hugo Larochelle, Isabelle Lajoie, Yoshua Bengio, and Pierre-Antoine Manzagol discuss stacked denoising autoencoders in their 2010 paper, which is a slight modification to the already established autoencoders. Their motivation, much like sparse coding, is to mimic the functions of the visual cortex to enable feature recognition and classification. 
+
+The authors describe note one, but two base equations for this model. The first is the encoder, which is defined as:
+\begin{align*}
+\vy = f_\theta (\vx) = s(\mW \vx + \vb)
+\end{align*}
+where $\theta = \{ \mW, \vx \}$ are the parameters to be learned. This appears very much like the general equation described at the beginning of this paper as well as to the other models described earlier. The purpose of the encoder is to transform the input into some hidden representation that can later be decoded. Similarly, the decoder is defined as:
+\begin{align*}
+\vz = g_{\theta^{'}} (\vy) = s(\mW^{'}  \vy + \vb)
+\end{align*}
+where $\theta^{'} = \{ \mW^{'}, \vb^{'} \}$, $\vy$ is the hidden representation output from the encoder, and $\vz$ is the output of the decoder. 
 
 \newpage
 
