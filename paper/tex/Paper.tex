@@ -200,7 +200,7 @@ In general, these algorithms follow a similar structure in terms of their deriva
 \begin{align*}
     X = W Z
 \end{align*}
-where  is the code matrix that represents a decomposed version of the input set and  is the weight matrix, which varies based on the output we are trying to derive. From here, the models diverge by placing different constraints on the input, the code matrix, or the weight matrix. In some cases, the constraint is enforced by transforming the input to satisfy it. A reconstruction error is then defined and minimized to determine the best code matrix for the model. Some methods also outline a method for preprocessing the input, which helps increase the accuracy of the trained model.
+where $Z$ is the code matrix that represents a decomposed version of the input set and $W$ is the weight matrix, which varies based on the output we are trying to derive. From here, the models diverge by placing different constraints on the input, the code matrix, or the weight matrix. In some cases, the constraint is enforced by transforming the input to satisfy it. A reconstruction error is then defined and minimized to determine the best code matrix for the model. Some methods also outline a method for preprocessing the input, which helps increase the accuracy of the trained model.
 
 \section{Sparse Coding}
 
@@ -292,7 +292,7 @@ The authors describe note one, but two base equations for this model. The first 
 \end{align*}
 where $\theta = \{ \mW, \vx \}$ are the parameters to be learned. This appears very much like the general equation described at the beginning of this paper as well as to the other models described earlier. The purpose of the encoder is to transform the input into some hidden representation that can later be decoded. Similarly, the decoder is defined as:
 \begin{align*}
-\vz = g_{\theta^{'}} (\vy) = s(\mW^{'}  \vy + \vb)
+\vz = g_{\theta^{'}} (\vy) = s(\mW^{'}  \vy + \vb^{'})
 \end{align*}
 where $\theta^{'} = \{ \mW^{'}, \vb^{'} \}$, $\vy$ is the hidden representation output from the encoder, and $\vz$ is the output of the decoder. 
 
