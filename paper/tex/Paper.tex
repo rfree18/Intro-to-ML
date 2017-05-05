@@ -296,7 +296,15 @@ where $\theta = \{ \mW, \vx \}$ are the parameters to be learned. This appears v
 \end{align*}
 where $\theta^{'} = \{ \mW^{'}, \vb^{'} \}$, $\vy$ is the hidden representation output from the encoder, and $\vz$ is the output of the decoder. 
 
-\todo {Go more in depth + discuss reconstruction}
+The model's reconstruction error is defined as:
+\begin{align*}
+L(x, z) = C(\sigmoid^2) ||x-z||^2
+\end{align*}
+for real valued x, where C is a constant that can be ignored for optimization. For binary values, the reconstruction is defined as:
+\begin{align*}
+L(x, z) = - \sum_j [x_j \log z_j + (1 - x_j) \log (1-z_j)]
+\end{align*}
+which is very similar to the reconstruction error defined for a logistic regression model.
 
 What differentiates the researcher's model from others is that it preprocesses the input, similar to ICA. An issue with the reconstruction error defined earlier is that the model will trivially solve the problem to simply be $X = Y$, which is a very uninteresting solution. The traditional solution to this problem is to simply reduce the dimensionality of $Y$ to produce an under-complete representation. The obvious implication is that this results in a loss of data and essentially makes this algorithm perform PCA.
 
@@ -321,11 +329,25 @@ Experimentally, the researchers show that the SDAE with 3 layers outperforms a s
 
 \section{Another Autoencoder Approach} 
 
-G.E. Hinton and R. R. Salakhutdinov discuss another modification to that can be made to the classic stacked autoencoder model. They define SAE exactly like the previous paper, but the modification they make is the addition of preprocessing on the weight matrix. Normally, the weight matrix is initialized to either random values or to some set of fixed values. However, this can lead to decreased performance, depending on the input data used. If the initial weights are rather large, the autoencoders will struggle to find a local minima of the discrepancy between the original input and the output. With small initial weights, the gradients in earlier layers are tiny, making it practically infeasible to train later layers. 
+G.E. Hinton and R. R. Salakhutdinov discuss another modification to that can be made to the classic stacked autoencoder model. While they do not explicitly define a stacked autoencoder, it appears that they refer to a standard  model, similar to what is described early in the previous section. The difference with the previous model, however, is that  Hinton and Salakhutdinov make an additional of preprocessing on the weight matrix. Normally, the weight matrix is initialized to either random values or to some set of fixed values. However, this can lead to decreased performance, depending on the input data used. If the initial weights are rather large, the autoencoders will struggle to find a local minima of the discrepancy between the original input and the output. With small initial weights, the gradients in earlier layers are tiny, making it practically infeasible to train later layers. 
 
-The researchers propose a pretraining algorithm that can somehow set good initial values for the weight matrix to produce an optimal model.
+The researchers propose a pretraining algorithm that can somehow set good initial values for the weight matrix to produce an optimal model. They first define an energy model for an image recognition model as:
+\begin{align*}
+E(\vv, \vh) = - \sum_{i \in pixels} b_i bv_i - \sum_{j \in features} b_j h_j - \sum_{i, j} v_i h_j w_{ij}
+\end{align*}
+where $\vv$ is the set of visible pixels, $\vh$ is the set of hidden units, corresponding to the feature detectors, and $w$ is the weight between them. This energy function is used by the model to produce probabilities of every possible "learned" image. 
 
+They then propose creating a function which they refer to as a confabulation, which is meant to set each individual pixel with a certain probability. Using this, they describe a weight matrix update rule as:
+\begin{align*}
+\Delta w_{ij} = \epsilon (<v_i h_j>_{data} - <v_i h_j>_{recon})
+\end{align*}
+where $\epsilon$ is the learning rate, $<v_i h_j>_{data}$ is the percentage of time each pixel corresponds to the hidden feature, and $<v_i h_j>_{recon}$ is the fraction for the confabulations. After the weight matrix is pretrained, the deep autoencoder can then be layered, with the hidden values of one layer becoming the visible units of the next.
 
+The researchers performed multiple tests on their model, including on the MNSIT data set. Through their experimentation, they found that their pretrained deep autoencoder significantly outperformed both PCA and a standard deep autoencoder. In fact, it achieved a 1.2\% error rate with backpropagation, beating commonly used models. They conclude that this is an excellent modification to the standard autoecncoder, leaving potential applications open for discovery.
+
+\section{Conclusion}
+
+Feature learning is still a relatively new field of study, even for computer science. The oldest paper discussed is only from 1997 and the newest is as recent as 2010. Considering the number of developments over such a short time period, it will be interesting to see what else researchers will discover in this field. The models outlined here can potentially be refined and utilized to solve various societal problems, It is now only a matter of time before new, more accurate, and more efficient models are discovered, enabling a new era of problem solving.
 
 \newpage
 
