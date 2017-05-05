@@ -238,7 +238,7 @@ where $\mA$ is the mixing matrix and $\vs$ is the signal matrix. This is very si
 \end{align*}
 where $W$ is the inverse of $A$.
 
-Hyvarinen and Oja developed several constraints on their model that serves to differentiate it from other feature extraction algorithms. First of all, each component in $\vs$ is constrained to be statistically independent and have a non-Gaussian distribution. Non-Gaussianity is necessary for this model since a Gaussian distribution is symmetric, which does not give any indication of the direction of the columns in the mixing matrix, thus making it impossible to derive. Additionally, since both $\vs$ and $\mA$ are totally unknown, then the variance cannot be determined. Thus, the variance is arbitrarily fixed at 1 to simplify the model. 
+Hyvarinen and Oja developed several constraints on their model that serves to differentiate it from other feature extraction algorithms. First of all, each component in $\vs$ is constrained to be statistically independent and have a non-Gaussian distribution. Non-Gaussianity is necessary for this model since a Gaussian distribution is symmetric, which does not give any indication of the direction of the columns in the mixing matrix, thus making it impossible to derive. Additionally, since both $\vs$ and $\mA$ are totally unknown, then the variance cannot be determined. Therefore, the variance is arbitrarily fixed at 1 to simplify the model. 
 
 As seen earlier, the given derivation of the signal matrix requires that the mixing matrix be known. Since nothing can be assumed about the mixing matrix, Hyvarinen and Oja instead derive an estimator that can give a good estimation. They base their estimator off the equation:
 \begin{align*}
